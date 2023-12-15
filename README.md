@@ -37,19 +37,19 @@ Tính năng:
     + Cập nhật thông tin của user bởi id: http://localhost:8080/api/users/userId (userId là mã id của user mà người dùng cần nhập) (PUT)
     + Xóa thông tin của user (sẽ xóa cả giỏ hàng và các sản phẩm trong giỏ hàng đó):  http://localhost:8080/api/users/userId (userId là mã id của user mà người dùng cần nhập) (DELETE)
 
-  Phân quyền:
-    - Tài khoản admin có quyền: 
-      + CRUD products
-      + Xóa user
-      + Cập nhật user
-      + Truy xuất thông tin user
-      + Xóa cart 
-      + Truy vấn cart
-    - Tài khoản user có quyền: 
-      + Xóa user
-      + Cập nhật user
-      + Truy xuất thông tin user
-      + Truy xuất thông tin products
+Phân quyền:
+  - Tài khoản admin có quyền: 
+    + CRUD products
+    + Xóa user
+    + Cập nhật user
+    + Truy xuất thông tin user
+    + Xóa cart 
+    + Truy vấn cart
+  - Tài khoản user có quyền: 
+    + Xóa user
+    + Cập nhật user
+    + Truy xuất thông tin user
+    + Truy xuất thông tin products
   
 
 
