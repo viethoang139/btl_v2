@@ -34,7 +34,7 @@ Cách chạy chương trình:
 
 
     * Note: Khi bạn bấm chạy class GeneratePassword sẽ tạo ra những chuỗi mã hóa khác nhau. Hãy copy chuỗi mà bạn vừa chạy xong
-    + Đối với bảng roles: các bạn nhập chay cột id (bắt đầu từ 1) và ở cột name các bạn bắt buộc phải ghi là ROLE_ADMIN và ROLE_USER (do đây là mặc định của spring)
+    + Đối với bảng roles: các bạn nhập chay cột id và ở cột name các bạn bắt buộc phải ghi là ROLE_ADMIN và ROLE_USER (do đây là mặc định của spring)
       
       Ví dụ:
 
@@ -65,6 +65,7 @@ Các bảng xử lý:
   - user_role: bảng thế hiện mối quan hệ nhiều nhiều giữa user và role
 
 Tính năng:
+  - Xử lí ngoại lệ
   - Đăng nhập: http://localhost:8080/api/auth/login (POST)
     + Tài khoản admin: (admin/123)
     + Tài khoản user: (duc/123), (dong/123)
