@@ -1,6 +1,7 @@
 package com.example.btl.service.impl;
 
 import com.example.btl.dto.LoginDto;
+import com.example.btl.dto.LoginDtoResponse;
 import com.example.btl.dto.RegisterDto;
 import com.example.btl.entity.Role;
 import com.example.btl.entity.User;
@@ -26,11 +27,15 @@ public class AuthServiceImpl implements AuthService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     @Override
-    public String login(LoginDto loginDto) {
+    public LoginDtoResponse login(LoginDto loginDto) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
         authenticationManager.authenticate(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return "Login successfully";
+        User user = userRepository.findByUsername(loginDto.getUsername()).get();
+        LoginDtoResponse loginDtoResponse = new LoginDtoResponse();
+        loginDtoResponse.setId(user.getId());
+        loginDtoResponse.setUsername(loginDto.getUsername());
+        return loginDtoResponse;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.btl.controller;
 
 import com.example.btl.dto.LoginDto;
+import com.example.btl.dto.LoginDtoResponse;
 import com.example.btl.dto.RegisterDto;
 import com.example.btl.service.AuthService;
 import jakarta.validation.Valid;
@@ -18,7 +19,7 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginDto loginDto){
+    public ResponseEntity<LoginDtoResponse> login(@RequestBody @Valid LoginDto loginDto){
         return ResponseEntity.ok(authService.login(loginDto));
     }
 
