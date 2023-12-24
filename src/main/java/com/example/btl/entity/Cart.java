@@ -22,7 +22,7 @@ public class Cart {
     @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
     private List<ProductCart> productCarts;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 

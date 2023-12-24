@@ -30,10 +30,10 @@ public class CartController {
         cartService.addProductToCart(cartId, productId);
         return ResponseEntity.ok("Add product successfully");
     }
-
-    @DeleteMapping("carts/{cartId}")
-    public ResponseEntity<String> deleteCartById(@PathVariable Long cartId){
-        cartService.deleteCartById(cartId);
-        return ResponseEntity.ok("Delete cart successfully");
+    
+    @DeleteMapping("carts/{cartId}/products")
+    public ResponseEntity<String> deleteProductsInCart(@PathVariable Long cartId){
+        cartService.deleteProductsInCart(cartId);
+        return ResponseEntity.ok("Products in cart has been delete successfully");
     }
 }

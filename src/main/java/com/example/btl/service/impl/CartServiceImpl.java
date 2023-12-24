@@ -13,13 +13,13 @@ import com.example.btl.repository.ProductCartRepository;
 import com.example.btl.repository.ProductRepository;
 import com.example.btl.repository.UserRepository;
 import com.example.btl.service.CartService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +30,7 @@ public class CartServiceImpl implements CartService {
     private ProductCartRepository productCartRepository;
     private ModelMapper modelMapper;
     private UserRepository userRepository;
+    private static List<Product> countQuantity = new ArrayList<>();
 
     @Override
     public void createCart(Long userId, Cart cart) {
@@ -51,9 +52,11 @@ public class CartServiceImpl implements CartService {
         ProductCart productCart = new ProductCart();
         productCart.setCart(cart);
         productCart.setProduct(product);
-        productCart.setQuantity(product.getQuantity());
+        countQuantity.add(product);
+        productCart.setQuantity(countQuantity.size());
         productCartRepository.save(productCart);
     }
+
 
     @Override
     public CartDto getCartById(Long cartId) {
@@ -74,11 +77,18 @@ public class CartServiceImpl implements CartService {
         return cartDto;
     }
 
-
+    @Transactional
+    @Override
+    public void deleteProductsInCart(Long cartId) {
+         cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart","ID",cartId));
+        productCartRepository.deleteByCart_Id(cartId);
+    }
     @Override
     public void deleteCartById(Long id) {
         cartRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Cart","ID",id));
+        countQuantity = new ArrayList<>();
         cartRepository.deleteById(id);
     }
 }
