@@ -26,7 +26,7 @@ public class ProductCart {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    private int quantity;
+    private Long quantity;
 
 
 }

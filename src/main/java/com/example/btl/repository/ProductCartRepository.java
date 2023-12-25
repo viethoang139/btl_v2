@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface ProductCartRepository extends JpaRepository<ProductCart,Long> {
         void deleteByCart_Id(Long cartId);
 
+        void deleteByProduct_Id(Long productId);
 
 
 

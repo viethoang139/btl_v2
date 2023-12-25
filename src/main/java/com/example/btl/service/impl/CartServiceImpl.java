@@ -19,7 +19,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +32,7 @@ public class CartServiceImpl implements CartService {
     private ProductCartRepository productCartRepository;
     private ModelMapper modelMapper;
     private UserRepository userRepository;
-    private static List<Product> countQuantity = new ArrayList<>();
+    private static Map<Long,Long> countQuantity = new HashMap<>();
 
     @Override
     public void createCart(Long userId, Cart cart) {
@@ -52,8 +54,9 @@ public class CartServiceImpl implements CartService {
         ProductCart productCart = new ProductCart();
         productCart.setCart(cart);
         productCart.setProduct(product);
-        countQuantity.add(product);
-        productCart.setQuantity(countQuantity.size());
+        countQuantity.put(productId, countQuantity.getOrDefault(productId,0L) + 1);
+        Long quantity = countQuantity.get(productId);
+        productCart.setQuantity(quantity);
         productCartRepository.save(productCart);
     }
 
@@ -84,11 +87,25 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new ResourceNotFoundException("Cart","ID",cartId));
         productCartRepository.deleteByCart_Id(cartId);
     }
+
+    @Transactional
+    @Override
+    public void deleteProductByIdInCart(Long cartId, Long productId) {
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart","ID",cartId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "ID",productId));
+
+        productCartRepository.deleteByProduct_Id(productId);
+        countQuantity.put(productId, 0L);
+    }
+
     @Override
     public void deleteCartById(Long id) {
         cartRepository.findById(id).
                 orElseThrow(() -> new ResourceNotFoundException("Cart","ID",id));
-        countQuantity = new ArrayList<>();
+        countQuantity = new HashMap<>();
         cartRepository.deleteById(id);
     }
 }
