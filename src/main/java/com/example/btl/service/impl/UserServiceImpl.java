@@ -30,7 +30,6 @@ public class UserServiceImpl implements UserService {
     private CartRepository cartRepository;
     private ProductRepository productRepository;
     private PasswordEncoder passwordEncoder;
-    private CartService cartService;
 
     @Override
     public UserDto getUserById(Long id) {
@@ -76,7 +75,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User","ID",id));
-        cartService.deleteCartById(user.getCart().getId());
         userRepository.deleteById(id);
     }
 }

@@ -91,21 +91,14 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void deleteProductByIdInCart(Long cartId, Long productId) {
-        Cart cart = cartRepository.findById(cartId)
+        cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart","ID",cartId));
 
-        Product product = productRepository.findById(productId)
+        productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "ID",productId));
 
         productCartRepository.deleteByProduct_Id(productId);
         countQuantity.put(productId, 0L);
     }
 
-    @Override
-    public void deleteCartById(Long id) {
-        cartRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("Cart","ID",id));
-        countQuantity = new HashMap<>();
-        cartRepository.deleteById(id);
-    }
 }

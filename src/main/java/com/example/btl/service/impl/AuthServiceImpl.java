@@ -3,8 +3,10 @@ package com.example.btl.service.impl;
 import com.example.btl.dto.LoginDto;
 import com.example.btl.dto.LoginDtoResponse;
 import com.example.btl.dto.RegisterDto;
+import com.example.btl.entity.Cart;
 import com.example.btl.entity.Role;
 import com.example.btl.entity.User;
+import com.example.btl.repository.CartRepository;
 import com.example.btl.repository.RoleRepository;
 import com.example.btl.repository.UserRepository;
 import com.example.btl.service.AuthService;
@@ -26,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private CartRepository cartRepository;
     @Override
     public LoginDtoResponse login(LoginDto loginDto) {
         Authentication authentication = new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
@@ -40,6 +43,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String register(RegisterDto registerDto) {
+        Cart cart = new Cart();
         User user = new User();
         user.setUsername(registerDto.getUsername());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
@@ -50,7 +54,9 @@ public class AuthServiceImpl implements AuthService {
         Role role = roleRepository.findByName("ROLE_USER");
         roles.add(role);
         user.setRoles(roles);
+        cart.setUser(user);
         userRepository.save(user);
+        cartRepository.save(cart);
         return "Register successfully";
     }
 }
