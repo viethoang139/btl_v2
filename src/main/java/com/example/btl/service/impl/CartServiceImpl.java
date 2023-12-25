@@ -86,6 +86,7 @@ public class CartServiceImpl implements CartService {
          cartRepository.findById(cartId)
                 .orElseThrow(() -> new ResourceNotFoundException("Cart","ID",cartId));
         productCartRepository.deleteByCart_Id(cartId);
+        countQuantity = new HashMap<>();
     }
 
     @Transactional
